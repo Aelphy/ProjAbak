@@ -1,0 +1,21 @@
+<h1>Pages_Tree</h1>
+ 
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Title</th>
+    <th>Text</th>
+    <th>Path</th>
+  </tr>
+ 
+  <% @page.each do |page| %>
+    <tr>
+      <td><%= page.id %></td>
+      <td><%= page.name %></td>
+      <td><%= page.title %></td>
+      <td><%= page.text %></td>
+      <td><%= page.path %></td>
+    </tr>
+  <% end %>
+</table>
