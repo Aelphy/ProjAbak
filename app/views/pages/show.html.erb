@@ -9,3 +9,25 @@
   <strong>Text:</strong>
   <%= @page.text %>
 </p>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Title</th>
+    <th>Text</th>
+    <th>Path</th>
+    <th>Parent_id</th>
+  </tr>
+ 
+  <% @children.each do |page| %>
+    <tr>
+      <td><%= page.id %></td>
+      <td><%= page.name %></td>
+      <td><%= page.title %></td>
+      <td><%= page.text %></td>
+      <td><%= page.path %></td>
+      <td><%= page.parent_id %></td>
+    </tr>
+  <% end %>
+</table>

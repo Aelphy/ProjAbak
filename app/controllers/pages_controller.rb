@@ -15,6 +15,7 @@ class PagesController < ApplicationController
 	end
 	def create	
 		@page = Page.new(params[:page])
+		@page.parent_id=Page.find_by_path(params[:path]).id
 		@page.path= params[:path].to_s+'/'+@page.name.to_s
 		if @page.save
 			redirect_to show_path(@page.path) 
@@ -31,7 +32,7 @@ class PagesController < ApplicationController
 		end
 	end
 	def index
-		@page=Page.all
+		@page = Page.all		
 	end
 	def add_root
 		@page=Page.new
@@ -54,6 +55,8 @@ class PagesController < ApplicationController
 			end
 			else	
 				@page = Page.find_by_path(params[:path])
+				@children=@page.children
+				@parent=@page.parent
 			end
-	end	
+	end
 end

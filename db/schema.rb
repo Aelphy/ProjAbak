@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120823054829) do
+ActiveRecord::Schema.define(:version => 20120910152947) do
 
   create_table "pages", :force => true do |t|
     t.string   "path"
@@ -20,6 +20,10 @@ ActiveRecord::Schema.define(:version => 20120823054829) do
     t.text     "text"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "parent_id"
   end
+
+  add_index "pages", ["name", "parent_id"], :name => "index_pages_by_path_and_parent_id"
+  add_index "pages", ["path"], :name => "index_pages_by_path"
 
 end

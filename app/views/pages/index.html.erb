@@ -7,6 +7,7 @@
     <th>Title</th>
     <th>Text</th>
     <th>Path</th>
+    <th>Parent_id</th>
   </tr>
  
   <% @page.each do |page| %>
@@ -16,6 +17,7 @@
       <td><%= page.title %></td>
       <td><%= page.text %></td>
       <td><%= page.path %></td>
+      <td><%= page.parent_id %></td>
     </tr>
   <% end %>
 </table>
