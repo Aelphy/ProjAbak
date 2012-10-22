@@ -8,6 +8,8 @@
     <th>Text</th>
     <th>Path</th>
     <th>Parent_id</th>
+    <th>Left Key</th>
+    <th>Right Key</th>
   </tr>
  
   <% @page.each do |page| %>
@@ -18,6 +20,8 @@
       <td><%= page.text %></td>
       <td><%= page.path %></td>
       <td><%= page.parent_id %></td>
+      <td><%= page.lft %></td>
+      <td><%= page.rgt %></td>
     </tr>
   <% end %>
 </table>

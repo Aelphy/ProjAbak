@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+	@chetchik=0
+	@parent
 	def add
 		if 	Page.find_by_path(params[:path]).nil?			 
 			respond_to do |format|
@@ -14,9 +16,15 @@ class PagesController < ApplicationController
 		@page = Page.find_by_path(params[:path])
 	end
 	def create	
-		@page = Page.new(params[:page])
-		@page.parent_id=Page.find_by_path(params[:path]).id
+		@page = Page.create(params[:page])
+		@page1=(Page.find_by_path(params[:path]))
 		@page.path= params[:path].to_s+'/'+@page.name.to_s
+		@page.parent_id=@page1.id
+		@page.lft=@page1.rgt
+		@page.rgt=@page1.rgt+1
+		new_subchild(@page1)
+		
+		
 		if @page.save
 			redirect_to show_path(@page.path) 
 		else
@@ -39,8 +47,12 @@ class PagesController < ApplicationController
 	end
 	def create_root
 		@page = Page.new(params[:page])
+		@page.lft = 1
+		@page.rgt = 2
 		@page.path=@page.name.to_s
+		@page.parent_id=0
 		if @page.save
+			@parent=@page
 			redirect_to show_path(@page.path)
 		else
 			render 'add_root'			
@@ -55,8 +67,37 @@ class PagesController < ApplicationController
 			end
 			else	
 				@page = Page.find_by_path(params[:path])
-				@children=@page.children
-				@parent=@page.parent
+				@subpage=@page
+				@children=Array.new
+				while @subpage.parent_id!=0
+					@children.unshift(@subpage)
+					@subpage=Page.find(@subpage.parent_id)
+				end
+
 			end
 	end
+	def new_subchild(page)
+		right=page.rgt
+		predok=rootpredok(page.id)
+		Page.where("lft > ?", right).each {|pag|
+			if (rootpredok(pag.id)==predok)
+				pag.lft=pag.lft+2
+				pag.rgt=pag.rgt+2
+				pag.save
+			end
+		}
+		Page.where("rgt >=? AND lft <? ", right, right).each {|pag|
+			if (rootpredok(pag.id)==predok)
+				pag.rgt=pag.rgt+2
+				pag.save
+			end
+		}	
+	end
+	def rootpredok(page2)
+		page007=Page.find(page2)
+		while (page007.parent_id != 0)
+			page007=Page.find(page007.parent_id)
+		end	
+		return page007.id	
+	end 	
 end
