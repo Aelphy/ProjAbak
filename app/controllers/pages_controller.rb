@@ -1,6 +1,5 @@
 class PagesController < ApplicationController
-	@chetchik=0
-	@parent
+	
 	def add
 		if 	Page.find_by_path(params[:path]).nil?			 
 			respond_to do |format|
@@ -12,9 +11,11 @@ class PagesController < ApplicationController
 		@page=Page.new
 		end
 	end
+	
 	def edit
 		@page = Page.find_by_path(params[:path])
 	end
+	
 	def create	
 		@page = Page.create(params[:page])
 		@page1=(Page.find_by_path(params[:path]))
@@ -31,6 +32,7 @@ class PagesController < ApplicationController
 			render 'add' 
 		end		
 	end
+	
 	def update
 		@page = Page.find(params[:id])
 		if @page.update_attributes(params[:page])
@@ -39,12 +41,15 @@ class PagesController < ApplicationController
 			render 'edit'
 		end
 	end
+	
 	def index
 		@page = Page.all		
 	end
+	
 	def add_root
 		@page=Page.new
 	end
+	
 	def create_root
 		@page = Page.new(params[:page])
 		@page.lft = 1
@@ -58,6 +63,7 @@ class PagesController < ApplicationController
 			render 'add_root'			
 		end	
 	end
+	
 	def show	
 		if 	Page.find_by_path(params[:path]).nil?			 
 			respond_to do |format|
@@ -76,6 +82,7 @@ class PagesController < ApplicationController
 
 			end
 	end
+		
 	def new_subchild(page)
 		right=page.rgt
 		predok=rootpredok(page.id)
@@ -93,6 +100,7 @@ class PagesController < ApplicationController
 			end
 		}	
 	end
+	
 	def rootpredok(page2)
 		page007=Page.find(page2)
 		while (page007.parent_id != 0)
@@ -100,4 +108,5 @@ class PagesController < ApplicationController
 		end	
 		return page007.id	
 	end 	
+	
 end
